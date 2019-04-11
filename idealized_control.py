@@ -22,6 +22,8 @@ rho_target[target][target] = 1
 Mg = np.zeros((N,N))
 Me = np.zeros((N,N))
 
+
+
 J = np.zeros((N,N))
 for i in range(N):
     J[i][i] = i
