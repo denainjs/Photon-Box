@@ -47,7 +47,7 @@ for i in range(0,N):
 ## Lindblad parameters
 n_th = 0.05
 Delta_t = 1
-T_cav = 1000
+T_cav = 1176
 M_0 = q.qeye(N) - (1 + n_th) * Delta_t / (2 * T_cav) * a.dag() * a - n_th * Delta_t / (2 * T_cav) * a * a.dag()
 M_minus_1 = np.sqrt((1 + n_th) * Delta_t / T_cav) * a
 M_1 = np.sqrt(n_th * Delta_t / T_cav) * a.dag()
