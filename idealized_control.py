@@ -4,35 +4,37 @@ import matplotlib.pyplot as plt
 import numpy as np
 import numpy.random as random
 
+## Simulation parameters
 num_steps = 200 # number of steps in the simulation 
 monte_carlo_steps = 50 # number of simulations in Monte-Carlo method
 
-
-target = 3 # we want to stabilize the Fock state |target>
-
+## Hilbert space parameters 
 N = 10 # dimension of the Hilbert space describing the cavity 
 n_max = 10 # maximum number of photon unambiguously measured
-c_1 = 1/(4*target + 2)
-c_2 = 0.1
-epsilon = 0.001
-
-
-
-phi_bar =  np.pi/n_max # parameter for phi(n)
-phi_R = np.pi/2 - phi_bar*target # parameter for phi(n)
-
 a = q.destroy(N) # annihilation operator; the creation operator is given by a.dag()
 
+## Target
+target = 3 # we want to stabilize the Fock state |target>
 rho_target = q.fock_dm(N,target) # target density matrix
 # print("Target density matrix: \n", rho_target)
 
+## Control parameters
+c_1 = 1/(4*target + 2)
+c_2 = 0.1
+epsilon = 0.001 
+
+## Cavity parameters
+phi_bar =  np.pi/n_max # parameter for phi(n)
+phi_R = np.pi/2 - phi_bar*target # parameter for phi(n)
+
+## Initial state
 rho_init = q.coherent_dm(N,target**0.5) # initial density matrix
 # print("Initial density matrix: \n", rho_init)
 # print("Its trace is:", rho_init.tr())
 # print("The initial mean number of photons is:", q.expect(a.dag() * a ,rho_init))
 
 
-## TODO: define the measurement operators
+## Measurement operators
 Mg = q.Qobj([[0 for i in range(N)] for j in range(N)])
 Me = q.Qobj([[0 for i in range(N)] for j in range(N)])
 for i in range(0,N):
@@ -40,7 +42,6 @@ for i in range(0,N):
     Me += np.sin((phi_R + phi_bar * i)/2) * q.fock_dm(N,i)
 # print("Measurement of the ground state: \n", Mg)
 # print("Measurement of the excited state: \n", Me)
-
 
 def markov_chain(target):
     lyapunov_values = []
