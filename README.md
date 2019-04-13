@@ -2,7 +2,7 @@
 Simulation of quantum feedback methods to stabilize photon-number states.
 
 ## Context
-Our goal is to **control the number of photons** inside a cavity. Atoms are repeatedly sent through the cavity, where they interact with the photons. Measuring their state gives some information on the cavity, and makes it possible to compute which control to apply to the cavity.
+Our goal is to **control the number of photons** inside a cavity. Atoms are repeatedly sent through the cavity, where they interact with the photons. Measuring their state gives some information on the cavity, and makes it possible to compute which control to apply.
 
 ## References
 * Dotsenko et al., [Quantum feedback by discrete quantum non-demolition measurements:
