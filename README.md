@@ -15,3 +15,6 @@ non-demolition measurements with imperfections and delays](https://arxiv.org/pdf
 photon number states](https://arxiv.org/pdf/1107.4027.pdf), 2011
 * Somaraju et al., [Semi-Global Approximate stabilization of an infinite
 dimensional quantum stochastic system](https://arxiv.org/pdf/1103.1732.pdf), 2011
+
+## License
+This project is under the MIT license.
