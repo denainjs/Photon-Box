@@ -19,7 +19,7 @@ The Hamiltonian of the **composite system**, which also takes into account the e
 
 ![compositehamiltonian](latex/compositehamiltonian.png)
 
-We will work under the dispersive approximation:
+We will work in the **dispersive approximation**:
 
 ![dispersiveapprox](latex/dispersiveapprox.png). 
 
@@ -31,8 +31,29 @@ where:
 
 ![chi](latex/chi.png).
 
-## 
+## ## The Open Loop apparatus
 
+An atom leave the box **B**, where it has been prepared in its ground state. Initially the cavity is in a coherent state such that the mean number of photons corresponds to the Fock state we want to stabilize. The state of the composite system is then given by:
+
+![initial](latex/initial.png)
+
+The atom then traverse a first cavity **R<sub>1</sub>**. Next, it passes through the cavity to stabilize **S** where it interacts with the photons: this is where the state of the composite system becomes entangled. The atom then travel through one last cavity **R<sub>2</sub>**. Finally, their state is measured in a field-ionization detector **D**.
+
+The evolution of the composite system between the release of an atom from **B** and the moment before it is measured can be summed up in the Schrödinger propagator **U<sub>SM</sub>** such that the state of the full system after leaving **R<sub>2</sub>** is given by:
+
+![usm](latex/usm.png)
+
+This formula defines the **measurement operators** **M<sub>g</sub>** and **M<sub>e</sub>**. Under the dispersive approximation, it can be shown that:
+
+![measurement](latex/measurement.png)
+
+Following the measurement (hence the collapse of the wave function), the state of the composite system is:
+
+![final](latex/final.png)
+
+The previous paragraphs referred to the journey of a single atom through the apparatus. Repeating this process by continuously sending atoms yields a Markov Chain, defined at step k by:
+
+![markov](latex/markov.png)
 
 ## References
 * Dotsenko et al., [Quantum feedback by discrete quantum non-demolition measurements:
