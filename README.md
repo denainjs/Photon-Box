@@ -31,7 +31,7 @@ where:
 
 ![chi](latex/chi.png).
 
-## ## The Open Loop apparatus
+## The Open Loop apparatus
 
 An atom leave the box **B**, where it has been prepared in its ground state. Initially the cavity is in a coherent state such that the mean number of photons corresponds to the Fock state we want to stabilize. The state of the composite system is then given by:
 
