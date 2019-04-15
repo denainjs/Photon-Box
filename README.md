@@ -1,7 +1,7 @@
 # Photon-Box
 Simulation of quantum feedback methods to stabilize photon-number states.
 
-## Context
+## Introduction
 
 Our goal is to **control the number of photons** inside a cavity. Atoms are repeatedly sent through the cavity, where they interact with the photons. Measuring their state gives some information on the cavity, and makes it possible to compute which control to apply. We say the cavity is the **system** (S) and the atom is the **meter** (M).
 
@@ -30,6 +30,8 @@ In this case, the composite Hamiltonian is given by the simpler expression:
 where:
 
 ![chi](latex/chi.png).
+
+## 
 
 
 ## References
