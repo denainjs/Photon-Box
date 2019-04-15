@@ -10,7 +10,7 @@ The cavity is modelled by a **quantum harmonic oscillator**. Its Hamiltonian can
 ![systemhamiltonian](latex/systemhamiltonian.png)
 
 
-The atoms are modelled by **two-state systems**, with Hamiltonian. Their Hamiltonian can be expressed as a function of the difference in pulsation between the excited and ground states using the Pauli operators:
+The atoms are modelled by **two-state systems**. Their Hamiltonian can be expressed as a function of the difference in pulsation between the excited and ground states using the Pauli operators:
 
 ![meterhamiltonian](latex/meterhamiltonian.png)
 
@@ -37,9 +37,9 @@ An atom leave the box **B**, where it has been prepared in its ground state. Ini
 
 ![initial](latex/initial.png)
 
-The atom then traverse a first cavity **R<sub>1</sub>**. Next, it passes through the cavity to stabilize **S** where it interacts with the photons: this is where the state of the composite system becomes entangled. The atom then travel through one last cavity **R<sub>2</sub>**. Finally, their state is measured in a field-ionization detector **D**.
+The atom then traverse a first cavity **R<sub>1</sub>**. Next, it passes through **S** where it interacts with the photons: this is where the state of the composite system becomes entangled. The atom then travel through one last cavity **R<sub>2</sub>**. Finally, its state is measured in a field-ionization detector **D**.
 
-The evolution of the composite system between the release of an atom from **B** and the moment before it is measured can be summed up in the Schrödinger propagator **U<sub>SM</sub>** such that the state of the full system after leaving **R<sub>2</sub>** is given by:
+The evolution of the composite system between the release of an atom from **B** and the moment before it is measured is summed up in the Schrödinger propagator **U<sub>SM</sub>**. The state of the full system after leaving **R<sub>2</sub>** is given by:
 
 ![usm](latex/usm.png)
 
