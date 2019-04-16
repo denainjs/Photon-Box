@@ -55,6 +55,36 @@ The previous paragraphs referred to the journey of a single atom through the app
 
 ![markov](latex/markov.png)
 
+We will see in the next paragraph that due to mistakes in the measurement process, we have access only to probability distributions of states rather than pure states. The bra-ket formalism is therefore insufficient: we must use **density matrices**.
+
+Given a pure state before measurement, the state after the measure is:
+
+![densityfinal](latex/densityfinal.png)
+
+Hence the associated Markov Chain:
+
+![densitymarkov](latex/densitymarkov.png)
+
+## Deviations from the previous model
+
+This model is far from enough to describe the photon box experiment. Here are some of the elements it omits:
+
+* We are interested in controlling the system, yet have not yet modelled the **effect of a control** on the cavity and atoms. 
+* The detector **D** does not measure all of the atoms that pass through it: there is a probability that it **missed an atom**.
+* The detector **D** sometimes gives **false measures**: there is a probability that it **made a mistake**.
+* The cavity is not a perfect reflector: it may absorb photons. Some photons are also created due to thermal fluctuations. This **relaxation of the cavity** is described by the Lindlad equation.
+
+
+Given a python file in this folder, the following table gives the corrections it does and doesn't includes. For instance, ```lindblad_control.py```  includes a control and takes the relaxation of the cavity into consideration via the Lindblad equation, but it does not account for delays, omissions and errors in the measurement process.
+
+
+| Simulation                    | Control | Omit | Mistake | Relaxation |
+| :---------------------------: |:-------:| :---:| :------:| :---------:|
+| ```idealized_no_control.py``` |  No     | No   | No      | No         |
+| ```idealized_control.py```    |  Yes    | No   | No      | No         |
+| ```lindblad_control.py```     |  Yes    | No   | No      | Yes        |
+
+
 ## References
 * Dotsenko et al., [Quantum feedback by discrete quantum non-demolition measurements:
 towards on-demand generation of photon-number states](https://arxiv.org/pdf/0905.0114.pdf), 2009
