@@ -33,6 +33,9 @@ where:
 
 ## The Open Loop apparatus
 
+![experiment](latex/experiment.png)
+
+
 An atom leave the box **B**, where it has been prepared in its ground state. Initially the cavity is in a coherent state such that the mean number of photons corresponds to the Fock state we want to stabilize. The state of the composite system is then given by:
 
 ![initial](latex/initial.png)
