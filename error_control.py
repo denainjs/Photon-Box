@@ -6,12 +6,12 @@ import numpy.random as random
 
 
 ## Simulation parameters
-num_steps = 250 # number of steps in the simulation 
+num_steps = 400 # number of steps in the simulation 
 monte_carlo_steps = 10 # number of simulations in Monte-Carlo method
 
 ## Hilbert space parameters 
-n_real = 25 # dimension of the Hilbert space describing the cavity 
-n_estimate = 10 # maximum number of photon unambiguously measured
+n_real = 20 # dimension of the Hilbert space describing the cavity 
+n_estimate = 15 # maximum number of photon unambiguously measured
 a_real = q.destroy(n_real) # annihilation operator; the creation operator is given by a.dag()
 a_estimate = q.destroy(n_estimate) # annihilation operator; the creation operator is given by a.dag()
 
@@ -48,20 +48,10 @@ for i in range(0,n_estimate):
     Mg_estimate += np.cos((phi_R_estimate + phi_bar_estimate * i)/2) * q.fock_dm(n_estimate,i)
     Me_estimate += np.sin((phi_R_estimate + phi_bar_estimate * i)/2) * q.fock_dm(n_estimate,i)
 
-## Lindblad parameters
-n_th = 0.05
-Delta_t = 1
-T_cav = 1176
-M_0_real = q.qeye(n_real) - (1 + n_th) * Delta_t / (2 * T_cav) * a_real.dag() * a_real - n_th * Delta_t / (2 * T_cav) * a_real * a_real.dag()
-M_minus_1_real = np.sqrt((1 + n_th) * Delta_t / T_cav) * a_real
-M_1_real = np.sqrt(n_th * Delta_t / T_cav) * a_real.dag()
+## Error parameters
+eta_e = 0.13 # probability of measuring y=g when the atom is in fact in state mu=e
+eta_g = 0.11 # probability of measuring y=e when the atom is in fact in state mu=g
 
-M_0_estimate = q.qeye(n_estimate) - (1 + n_th) * Delta_t / (2 * T_cav) * a_estimate.dag() * a_estimate - n_th * Delta_t / (2 * T_cav) * a_estimate * a_estimate.dag()
-M_minus_1_estimate = np.sqrt((1 + n_th) * Delta_t / T_cav) * a_estimate
-M_1_estimate = np.sqrt(n_th * Delta_t / T_cav) * a_estimate.dag()
-
-## Omission parameters
-eta = 0.8 # probability of detecting the atom
 
 def markov_chain(target):
     lyapunov_values_estimate = []
@@ -73,44 +63,29 @@ def markov_chain(target):
     lyapunov_values_real.append(lyapunov(rho_real,rho_target_real))
     for i in range(num_steps):
         print("Iteration number:", i)
-        # Measurement: project rho_real, project rho_estimate if measurement occurs
+        # Measurement: project rho_real, rho_estimate is a mixture due to possible mistakes in detection
         proba_excited = np.real((Me_real*rho_real*Me_real.dag()).tr())
         mu = np.random.binomial(1, proba_excited) # 0 is ground, 1 is excited
-        is_measured = np.random.binomial(1, eta)
         if mu == 0:
             rho_real = Mg_real*rho_real*Mg_real.dag()
             rho_real /= rho_real.tr()
-            if is_measured == 1:
-                rho_estimate = Mg_estimate*rho_estimate*Mg_estimate.dag()
+            make_mistake = np.random.binomial(1, eta_g) # whether or not there is a detection error
+            if make_mistake: # we detect an excited state: y=e
+                rho_estimate = eta_g * (Mg_estimate*rho_estimate*Mg_estimate.dag()) + (1 - eta_e) * (Me_estimate*rho_estimate*Me_estimate.dag())
+                rho_estimate /= rho_estimate.tr()
+            else: # we detect a ground state: y=g
+                rho_estimate = eta_e * (Me_estimate*rho_estimate*Me_estimate.dag()) + (1 - eta_g) * (Mg_estimate*rho_estimate*Mg_estimate.dag())
                 rho_estimate /= rho_estimate.tr()
         if mu == 1:
             rho_real = Me_real * rho_real * Me_real.dag()
             rho_real /= rho_real.tr()
-            if is_measured == 1:
-                rho_estimate = Me_estimate*rho_estimate*Me_estimate.dag()
+            make_mistake = np.random.binomial(1, eta_e) # whether or not there is a detection error
+            if make_mistake: # we detect a ground state: y=g
+                rho_estimate = eta_e * (Me_estimate*rho_estimate*Me_estimate.dag()) + (1 - eta_g) * (Mg_estimate*rho_estimate*Mg_estimate.dag())
                 rho_estimate /= rho_estimate.tr()
-        if is_measured == 0:
-            rho_estimate = Mg_estimate*rho_estimate*Mg_estimate.dag() +                                                     Me_estimate*rho_estimate*Me_estimate.dag()
-        # Lindblad: project rho_real depending on whether a photon appears, disappears or nothing happens
-        # don't project rho_estimate if measurement occurs
-        proba_0_real = np.real((M_0_real * rho_real * M_0_real.dag()).tr())
-        proba_1_real = np.real((M_1_real * rho_real * M_1_real.dag()).tr())
-        proba_minus_1_real = np.real((M_minus_1_real * rho_real * M_minus_1_real.dag()).tr())
-        # the probabilities are not perfectly normalized
-        sum_proba = proba_0_real + proba_1_real + proba_minus_1_real
-        proba_0_real /= sum_proba
-        proba_1_real /= sum_proba
-        proba_minus_1_real /= sum_proba
-        lindblad_possible_outcomes = [1, 0, -1]
-        lindblad_probabilities = [proba_1_real, proba_0_real, proba_minus_1_real]
-        lindblad_outcome = np.random.choice(lindblad_possible_outcomes, 1, p=lindblad_probabilities)[0]
-        if lindblad_outcome == 0:
-            rho_real = M_0_real * rho_real * M_0_real.dag()
-        elif lindblad_outcome == 1:
-            rho_real = M_1_real * rho_real * M_1_real.dag()
-        elif lindblad_outcome == -1:
-            rho_real = M_minus_1_real * rho_real * M_minus_1_real.dag()
-        rho_estimate =  M_0_estimate * rho_estimate * M_0_estimate.dag() + M_1_estimate * rho_estimate * M_1_estimate.dag() + M_minus_1_estimate * rho_estimate * M_minus_1_estimate.dag() 
+            else: # we detect an excited state: y=e
+                rho_estimate = eta_g * (Mg_estimate*rho_estimate*Mg_estimate.dag()) + (1 - eta_e) * (Me_estimate*rho_estimate*Me_estimate.dag())
+                rho_estimate /= rho_estimate.tr()
         # Control
         if np.real((rho_estimate * rho_target_estimate).tr()) >= epsilon:
             alpha_k = c_1 * (commutator(rho_target_estimate, a_estimate.dag() - a_estimate) * rho_estimate).tr()
@@ -141,15 +116,21 @@ def plot_fidelity(lyapunov_values):
 def plot_many_lyapunov_values(num_curves):
     steps = q.arange(num_steps + 1)
     plt.ylim(0.,1.)
+    real_average = np.zeros(num_steps + 1, dtype = 'complex128')
+    estimate_average = np.zeros(num_steps + 1, dtype = 'complex128')
     for i in range(num_curves):
         markov_chain_results = markov_chain(target)
         lyapunov_values_real = markov_chain_results[0]
         lyapunov_values_estimate = markov_chain_results[1]
+        real_average += lyapunov_values_real
+        estimate_average += lyapunov_values_estimate
         plt.plot(steps, lyapunov_values_real, color = 'b')
         plt.plot(steps, lyapunov_values_estimate, color = 'r')
+    plt.plot(steps, real_average/num_curves, color = 'g')
+    plt.plot(steps, estimate_average/num_curves, color = 'orange')
     plt.show()
 
-plot_many_lyapunov_values(1)
+plot_many_lyapunov_values(5)
 
 def plot_many_alpha_k(num_curves):
     steps = q.arange(num_steps)

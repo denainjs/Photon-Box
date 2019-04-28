@@ -78,16 +78,19 @@ This model is far from enough to describe the photon box experiment. Here are so
 * The cavity is not a perfect reflector: it may absorb photons. Some photons are also created due to thermal fluctuations. This **relaxation of the cavity** is described by the Lindlad equation.
 
 
-Given a python file in this folder, the following table gives the corrections it does and doesn't includes. For instance, ```lindblad_control.py```  includes a control and takes the relaxation of the cavity into consideration via the Lindblad equation, but it does not account for delays, omissions and errors in the measurement process.
+Given a python file in this folder, the following table gives the corrections it does and doesn't includes. For instance, ```lindblad_control.py```  includes a control and takes the relaxation of the cavity into consideration via the Lindblad equation, but it does not account for delays, omissions and mistakes in the measurement process.
 
 
-| Simulation                        | Control | Omit | Mistake | Relaxation |
+| Simulation                        | Control | Omit | Error   | Relaxation |
 | :--------------------------------:|:-------:| :---:| :------:| :---------:|
 | ```idealized_no_control.py```     |  No     | No   | No      | No         |
 | ```idealized_control.py```        |  Yes    | No   | No      | No         |
 | ```lindblad_control.py```         |  Yes    | No   | No      | Yes        |
 | ```lindblad_omission_control.py```|  Yes    | Yes  | No      | Yes        |
 | ```omission_control.py```         |  Yes    | Yes  | No      | No         |
+| ```error_control.py```            |  Yes    | No   | Yes     | No         |
+| ```error_omission_control.py```   |  Yes    | Yes  | Yes     | No         |
+
 
 
 ## References

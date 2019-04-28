@@ -49,7 +49,7 @@ for i in range(0,n_estimate):
     Me_estimate += np.sin((phi_R_estimate + phi_bar_estimate * i)/2) * q.fock_dm(n_estimate,i)
 
 ## Omission parameters
-eta = 0.8
+eta = 0.8 # probability of detecting the atom
 
 def markov_chain(target):
     lyapunov_values_estimate = []
