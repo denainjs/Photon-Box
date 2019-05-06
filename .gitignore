@@ -1,3 +1,4 @@
 .DS_Store
 draft-README.md
 .vscode/*
+.ipynb_checkpoints
