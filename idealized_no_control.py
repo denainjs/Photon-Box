@@ -12,14 +12,14 @@ monte_carlo_steps = 50 # number of simulations in Monte-Carlo method
 N = 10 # dimension of the Hilbert space describing the cavity 
 n_max = 10 # maximum number of photon unambiguously measured
 
+## Cavity parameters
+phi_bar =  np.pi/n_max # parameter for phi(n)
+phi_R = np.pi/2 - phi_bar*target # parameter for phi(n)
+
 ## Target
 target = 3 # we want to stabilize the Fock state |target>
 rho_target = q.fock_dm(N,target) # target density matrix
 # print("Target density matrix: \n", rho_target)
-
-## Cavity parameters
-phi_bar =  np.pi/n_max # parameter for phi(n)
-phi_R = np.pi/2 - phi_bar*target # parameter for phi(n)
 
 ## Initial state
 rho_init = q.coherent_dm(N,target**0.5) # initial density matrix
